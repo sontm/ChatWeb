@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+<!-- <classPathEntry location="D:\\Programing Language\\_ForPinku\\JavaEE\\SpringExtra\\mysql-connector-java-5.1.42.jar" /> -->
+  <context id="context1">
+  <!-- 	   schema la DB name, tableName la table -->
+    <jdbcConnection connectionURL="jdbc:postgresql://localhost:5432/chatweb" 
+	    driverClass="org.postgresql.Driver" 
+	   	password="postgres" userId="postgres" />
+	   <javaModelGenerator targetPackage="sansanvn.web.chatweb.entity" targetProject="ChatWeb" />
+	   <sqlMapGenerator targetPackage="mappers" targetProject="ChatWeb" />
+	   <javaClientGenerator targetPackage="sansanvn.web.chatweb.dao" targetProject="ChatWeb" type="XMLMAPPER" />
+	   
+       <table schema="public" tableName="dbchatroom" domainObjectName="DBChatRoom">
+	   </table>
+       <table schema="public" tableName="dbchat_message" domainObjectName="DBChatMessage">
+	   </table>
+	   <table schema="public" tableName="db_user" domainObjectName="DBUser">
+	   </table>
+	   
+  </context>
+</generatorConfiguration>
