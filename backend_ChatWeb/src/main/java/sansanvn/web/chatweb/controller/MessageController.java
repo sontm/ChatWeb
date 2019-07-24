@@ -82,7 +82,7 @@ public class MessageController {
 	@MessageMapping("/subcribe")
 	@SendTo("/socket/messages")
 	public List<ChatMessage> newMessage(ChatMessage msg) throws Exception {
-		System.out.println("New:" + msg.getFrom() + "," + msg.getContent());
+		System.out.println("New Msg:" + msg.getFrom() + "," + msg.getContent());
 		List<ChatMessage> retWeb = new ArrayList<ChatMessage>();
 		// Insert this Message to DB
 		DBChatMessage dbMsg = new DBChatMessage();

@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -19,6 +21,9 @@ import org.springframework.context.annotation.Bean;
 
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -43,6 +48,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 //@ComponentScan("fateit.java.webanalytic.db.entity")
 //@ComponentScan("fateit.java.webanalytic.webmodel")
 //@MapperScan("sansanvn.web.chatweb.client")
+@ComponentScan("sansanvn.web.chatweb")
 @ComponentScan("sansanvn.web.chatweb.service")
 @ComponentScan("sansanvn.web.chatweb.entity")
 @MapperScan("sansanvn.web.chatweb.dao")
@@ -96,5 +102,19 @@ public class ChatWebApplication{ // extends SpringBootServletInitializer for WAR
 	   return dataSource;
 	}
 
+	@Bean
+	@Order(Ordered.HIGHEST_PRECEDENCE + 80)
+    public ChannelInterceptor messageChannelInterceptor() {
+        ChannelInterceptor channelInterceptor = new ChannelInterceptor() {
+
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                System.out.println("Here----------------------: " + message);
+                return message;
+            }
+
+        };
+        return channelInterceptor;
+    }
 }
 

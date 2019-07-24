@@ -47,6 +47,21 @@ function createHeader() {
  * Handler communication with server.
  */
 class BackEnd {
+    login(account, onOK, onError) {
+        axios.post("/api/auth/login/",
+            JSON.stringify(account),
+            { headers: {"Content-Type": "application/json"} })
+            .then((response) => {
+                onOK({
+                    username: account.username,
+                    accessToken: response.data.accessToken
+                });
+            })
+            .catch((error) => {
+                onError(error);
+            });
+    }
+
     getAllRooms(onOK, onError) {
         let headers = createHeader();
         axios.get("http://localhost:8080/api/rooms",
