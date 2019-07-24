@@ -51,7 +51,7 @@ public class MessageController {
 			for (DBChatMessage e : retDB) {
 				DBUser user = serviceUser.getUserFromID(e.getFromUserid());
 				if (user != null) {
-					retWeb.add(new ChatMessage(e.getId(), user.getUsername(), e.getRoomid(), e.getContent(), user.getId()));
+					retWeb.add(new ChatMessage(e.getId(), user.getUsername(), e.getRoomid(), e.getContent()));
 				}
 				
 			}
@@ -69,7 +69,7 @@ public class MessageController {
 			for (DBChatMessage e : retDB) {
 				DBUser user = serviceUser.getUserFromID(e.getFromUserid());
 				if (user != null) {
-					retWeb.add(new ChatMessage(e.getId(), user.getUsername(), e.getRoomid(), e.getContent(), user.getId()));
+					retWeb.add(new ChatMessage(e.getId(), user.getUsername(), e.getRoomid(), e.getContent()));
 				}
 				
 			}
@@ -85,14 +85,22 @@ public class MessageController {
 		System.out.println("New Msg:" + msg.getFrom() + "," + msg.getContent());
 		List<ChatMessage> retWeb = new ArrayList<ChatMessage>();
 		// Insert this Message to DB
+		// TODO this get User ID from User Name
+
+		
 		DBChatMessage dbMsg = new DBChatMessage();
 		dbMsg.setContent(msg.getContent());
 		dbMsg.setRoomid(msg.getToRoomID());
-		dbMsg.setFromUserid(msg.getFromUserID());
 		dbMsg.setTimestamp(new Date());
+		
+		DBUser user = serviceUser.getByUsernameOrEmail(msg.getFrom(), msg.getFrom());
+		if (user != null) {
+			dbMsg.setFromUserid(user.getId());
+		}
+		
 		serviceChatMessage.insertMessage(dbMsg);
 
-		retWeb.add (new ChatMessage(dbMsg.getId(), msg.getFrom(), 1, msg.getContent(), msg.getFromUserID()));
+		retWeb.add (new ChatMessage(dbMsg.getId(), msg.getFrom(), 1, msg.getContent()));
 		
 		return retWeb;
 	}

@@ -1,0 +1,28 @@
+.messenger-container {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 1fr 1fr 1fr 1fr 60px;
+  grid-template-areas: 
+    "r r m m m m m"
+    "r r m m m m m"
+    "r r m m m m m"
+    "r r m m m m m"
+    "r r m m m m m"
+    "n n f f f f f";
+}
+
+.room-list {
+  grid-area: r;
+}
+.message-list {
+  grid-area: m;
+}
+.new-message {
+  grid-area: f;
+}
+.create-room {
+  grid-area: n;
+}

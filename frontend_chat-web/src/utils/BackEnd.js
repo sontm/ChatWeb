@@ -31,22 +31,22 @@ function convert_parameter(parameter) {
     return param;
 }
 
-function createHeader() {
-    if(localStorage.getItem("accessToken")) {
-        var headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
-                    };
-    } else {
-        var headers = {'Content-Type': 'application/json'};
-    }
-    return headers;
-}
 /**
  * Server class.
  * Handler communication with server.
  */
 class BackEnd {
+    createHeader() {
+        if(localStorage.getItem("accessToken")) {
+            var headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+                        };
+        } else {
+            var headers = {'Content-Type': 'application/json'};
+        }
+        return headers;
+    }
     login(account, onOK, onError) {
         axios.post("/api/auth/login/",
             JSON.stringify(account),
@@ -63,7 +63,7 @@ class BackEnd {
     }
 
     getAllRooms(onOK, onError) {
-        let headers = createHeader();
+        let headers = this.createHeader();
         axios.get("http://localhost:8080/api/rooms",
             {
                 headers: headers,
@@ -78,7 +78,7 @@ class BackEnd {
     }
 
     getAllMessagesOfRoom(roomID, onOK, onError) {
-        let headers = createHeader();
+        let headers = this.createHeader();
         axios.get("http://localhost:8080/api/messagesOfRoomID/" + roomID,
             {
                 headers: headers,

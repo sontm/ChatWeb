@@ -1,41 +1,19 @@
 #root {
   height: 100%;
+  width: 100%;
 }
 
 html, body {
-  height: 90%;
-  widows: 100%;
-  margin: 20px;
+  margin: 0;
   padding: 0;
 }
-.app {
-  display: grid;
-  height: 100%;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 60px;
-  grid-template-areas: 
-    "l l l l l l l"
-    "l l l l l l l"
-    "r r m m m m m"
-    "r r m m m m m"
-    "r r m m m m m"
-    "r r m m m m m"
-    "r r m m m m m"
-    "n n f f f f f";
+.container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-
-.login-form {
-  grid-area: l;
-}
-.room-list {
-  grid-area: r;
-}
-.message-list {
-  grid-area: m;
-}
-.new-message {
-  grid-area: f;
-}
-.create-room {
-  grid-area: n;
+.app-content {
+  margin-top: 64px;   
 }
