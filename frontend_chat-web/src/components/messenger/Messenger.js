@@ -12,7 +12,8 @@ import BackEnd from "../../utils/BackEnd"
 import SockJsClient from 'react-stomp';
 import {BrowserRouter as Router} from "react-router-dom";
 import {Route,withRouter,Switch} from 'react-router-dom';
-
+const BASE_NAME = "/utility";
+//const BASE_NAME = "";
 class Messenger extends Component {
     constructor() {
         super()
@@ -36,6 +37,7 @@ class Messenger extends Component {
         try {
           //this.clientRef.sendMessage("/api/subcribe", JSON.stringify({"content":msg, 
            // "from":this.state.curUser.username, "toRoomID":this.state.curRoomID, "fromUserID": this.state.curUser.id}));
+           // THis should NOT have Context path here
            this.clientRef.sendMessage("/api/subcribe", JSON.stringify({"content":msg, 
             "from":this.props.currentUser, "toRoomID":this.state.curRoomID}));
           return true;
@@ -57,6 +59,7 @@ class Messenger extends Component {
           curRoomID:id
         })
         if (this.clientRef) {
+            // THis should NOT have Context path here
           this.clientRef.sendMessage("/api/subcribeToRoom", JSON.stringify({id: id}));
         }
         // BackEnd.getAllMessagesOfRoom( id, 
@@ -82,6 +85,7 @@ class Messenger extends Component {
     }
 
     render() {
+        var url = "http://localhost:8080" + BASE_NAME + "/handler";
         return (
         <div className="messenger-container">
             <RoomList rooms={this.state.rooms} subcribeToRoom={this.subcribeToRoom}/>
@@ -89,7 +93,7 @@ class Messenger extends Component {
             <MessageList messages={this.state.messages}/>
             <MessageForm sendMessage={this.sendMessage}/>
             
-            <SockJsClient url='http://localhost:8080/handler' topics={['/socket/messages']}
+            <SockJsClient url={url} topics={['/socket/messages']}
                 headers={this.httpHeader} subscribeHeaders={this.httpHeader}
                 onMessage={this.onMessage}
                 ref={ (client) => { this.clientRef = client }} /> 

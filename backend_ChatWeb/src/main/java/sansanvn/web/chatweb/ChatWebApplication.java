@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -42,7 +43,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 //
 //}
 
-
+//// extends SpringBootServletInitializer for WAR file
 @SpringBootApplication
 //@ComponentScan("sansanvn.web.chatweb.service")
 //@ComponentScan("fateit.java.webanalytic.db.entity")
@@ -52,7 +53,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 @ComponentScan("sansanvn.web.chatweb.service")
 @ComponentScan("sansanvn.web.chatweb.entity")
 @MapperScan("sansanvn.web.chatweb.dao")
-public class ChatWebApplication{ // extends SpringBootServletInitializer for WAR file
+public class ChatWebApplication extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ChatWebApplication.class, args);

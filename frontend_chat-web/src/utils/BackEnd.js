@@ -8,7 +8,8 @@ if (!window.Promise) {
 }
 
 var cloneDeep = require('lodash/cloneDeep');
-
+const BASE_NAME = "/utility";
+//const BASE_NAME = "";
 /**
  * Convert parameter information to correct Get request.
  *
@@ -48,7 +49,7 @@ class BackEnd {
         return headers;
     }
     login(account, onOK, onError) {
-        axios.post("/api/auth/login/",
+        axios.post(BASE_NAME+"/api/auth/login/",
             JSON.stringify(account),
             { headers: {"Content-Type": "application/json"} })
             .then((response) => {
@@ -64,7 +65,7 @@ class BackEnd {
 
     getAllRooms(onOK, onError) {
         let headers = this.createHeader();
-        axios.get("http://localhost:8080/api/rooms",
+        axios.get(BASE_NAME+"/api/rooms",
             {
                 headers: headers,
                 transformResponse: [JsonDateDecoder]
@@ -79,7 +80,7 @@ class BackEnd {
 
     getAllMessagesOfRoom(roomID, onOK, onError) {
         let headers = this.createHeader();
-        axios.get("http://localhost:8080/api/messagesOfRoomID/" + roomID,
+        axios.get(BASE_NAME+"/api/messagesOfRoomID/" + roomID,
             {
                 headers: headers,
                 transformResponse: [JsonDateDecoder]

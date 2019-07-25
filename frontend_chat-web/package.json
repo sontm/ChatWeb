@@ -1,6 +1,7 @@
 {
   "name": "chat-web",
   "version": "0.1.0",
+  "homepage": "https://localhost:3000/utility",
   "private": true,
   "dependencies": {
     "antd": "^3.20.5",
@@ -30,7 +31,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [
