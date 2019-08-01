@@ -23,6 +23,7 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +40,7 @@ import sansanvn.web.chatweb.security.UserPrincipal;
 // Set Order to Highest to make this come before Spring Security HIGHEST_PRECEDENCE=-2147483648
 @Configuration
 @EnableWebSocketMessageBroker
-@Order(Ordered.HIGHEST_PRECEDENCE + 90)
+@Order(Ordered.HIGHEST_PRECEDENCE + 70)
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -52,13 +53,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/socket");
+        config.enableSimpleBroker("/queue", "/topic", "/user");
         config.setApplicationDestinationPrefixes("/api");
+        config.setUserDestinationPrefix("/user");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/handler").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/socket").setAllowedOrigins("*").withSockJS();
         //.setWebSocketEnabled(false)
         //.setSessionCookieNeeded(false);
     }
@@ -66,6 +68,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
+		System.out.println("WebSocketConfig configureClientInboundChannel called");
 		registration.interceptors(new ChannelInterceptor() {
 			@Override
 			public Message<?> preSend(Message<?> message, MessageChannel channel) {
@@ -101,7 +104,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 					                accessor.setLeaveMutable(true);
 					               // return MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders());
 					                
-					                System.out.println("------Send Message:" +message.getPayload());
+					                System.out.println("------Send Message:" + accessor.getSessionId());
 					                return message;
 								} catch (Exception e) {
 									// TODO Auto-generated catch block

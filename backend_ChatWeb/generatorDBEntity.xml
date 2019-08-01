@@ -18,5 +18,8 @@
 	   <table schema="public" tableName="db_user" domainObjectName="DBUser">
 	   </table>
 	   
+	    <table schema="public" tableName="db_user_in_room" domainObjectName="DBUserInRoom">
+	   </table>
+	   
   </context>
 </generatorConfiguration>

@@ -64,19 +64,12 @@ public class ChatWebApplication extends SpringBootServletInitializer{
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-            	 registry.addMapping("/handler/*").allowedOrigins("http://localhost:3000");
-            	 registry.addMapping("/api/*").allowedOrigins("http://localhost:3000");
+            	 registry.addMapping("/socket/**").allowedOrigins("http://localhost:3000");
+            	 registry.addMapping("/api/**").allowedOrigins("http://localhost:3000");
             	 
-                registry.addMapping("/api/rooms").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/api/messagesOfRoomID/{id}").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/api/subcribe").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/subcribe").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/handler/socket/messages").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/socket/messages").allowedOrigins("http://localhost:3000");
-                
-                registry.addMapping("/api/subcribeToRoom").allowedOrigins("http://localhost:3000");
-                
-               
+//                registry.addMapping("/api/rooms").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/api/messagesOfRoomID/{id}").allowedOrigins("http://localhost:3000");
+//                registry.addMapping("/api/subcribe").allowedOrigins("http://localhost:3000");
             }
         };
     }

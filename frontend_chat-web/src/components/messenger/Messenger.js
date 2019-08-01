@@ -12,8 +12,8 @@ import BackEnd from "../../utils/BackEnd"
 import SockJsClient from 'react-stomp';
 import {BrowserRouter as Router} from "react-router-dom";
 import {Route,withRouter,Switch} from 'react-router-dom';
-const BASE_NAME = "/utility";
-//const BASE_NAME = "";
+//const BASE_NAME = "/utility";
+const BASE_NAME = "";
 class Messenger extends Component {
     constructor() {
         super()
@@ -33,12 +33,9 @@ class Messenger extends Component {
     }
 
     sendMessage = (msg) => {
-        console.log("try send message:" + msg)
+        
         try {
-          //this.clientRef.sendMessage("/api/subcribe", JSON.stringify({"content":msg, 
-           // "from":this.state.curUser.username, "toRoomID":this.state.curRoomID, "fromUserID": this.state.curUser.id}));
-           // THis should NOT have Context path here
-           this.clientRef.sendMessage("/api/subcribe", JSON.stringify({"content":msg, 
+           this.clientRef.sendMessage("/api/subcribe/newMessage", JSON.stringify({"content":msg,
             "from":this.props.currentUser, "toRoomID":this.state.curRoomID}));
           return true;
         } catch(e) {
@@ -53,27 +50,19 @@ class Messenger extends Component {
     }
 
     subcribeToRoom(id) {
-        console.log("try subcribe to room:" + id)
+        if (this.clientRef) {
+          console.log("newJoinRoom:" + id)
+            // THis should NOT have Context path here
+          this.clientRef.sendMessage("/api/subcribe/newJoinRoom", JSON.stringify({"id":id}));
+        }
         this.setState({
           messages: [],
           curRoomID:id
         })
-        if (this.clientRef) {
-            // THis should NOT have Context path here
-          this.clientRef.sendMessage("/api/subcribeToRoom", JSON.stringify({id: id}));
-        }
-        // BackEnd.getAllMessagesOfRoom( id, 
-        //   (data) => {
-        //     this.setState({
-        //       messages: data
-        //     })
-        //   },
-        //   (err) => {console.log("getAllMessages Error1:" + err)}
-        // );
     }
 
     componentDidMount() {
-        BackEnd.getAllRooms(
+        BackEnd.getAllRooms({username:this.props.currentUser},
           (data) => {
             this.setState({
               rooms: data
@@ -81,11 +70,9 @@ class Messenger extends Component {
           },
           (err) => {console.log("getAllRooms Error1:" + err)}
         );
-        //this.subcribeToRoom(1);
     }
-
     render() {
-        var url = "http://localhost:8080" + BASE_NAME + "/handler";
+        var url = "http://localhost:8080" + BASE_NAME + "/socket";
         return (
         <div className="messenger-container">
             <RoomList rooms={this.state.rooms} subcribeToRoom={this.subcribeToRoom}/>
@@ -93,10 +80,10 @@ class Messenger extends Component {
             <MessageList messages={this.state.messages}/>
             <MessageForm sendMessage={this.sendMessage}/>
             
-            <SockJsClient url={url} topics={['/socket/messages']}
-                headers={this.httpHeader} subscribeHeaders={this.httpHeader}
-                onMessage={this.onMessage}
-                ref={ (client) => { this.clientRef = client }} /> 
+            <SockJsClient url={url} topics={['/user/queue/messages']}
+              headers={this.httpHeader} subscribeHeaders={this.httpHeader}
+              onMessage={this.onMessage}
+              ref={ (client) => { this.clientRef = client }} />
           </div>
         )
     }

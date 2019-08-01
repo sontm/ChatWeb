@@ -8,8 +8,8 @@ if (!window.Promise) {
 }
 
 var cloneDeep = require('lodash/cloneDeep');
-const BASE_NAME = "/utility";
-//const BASE_NAME = "";
+//const BASE_NAME = "/utility";
+const BASE_NAME = "";
 /**
  * Convert parameter information to correct Get request.
  *
@@ -63,9 +63,10 @@ class BackEnd {
             });
     }
 
-    getAllRooms(onOK, onError) {
+    getAllRooms(username, onOK, onError) {
         let headers = this.createHeader();
-        axios.get(BASE_NAME+"/api/rooms",
+        axios.post(BASE_NAME+"/api/rooms",
+            JSON.stringify(username),
             {
                 headers: headers,
                 transformResponse: [JsonDateDecoder]

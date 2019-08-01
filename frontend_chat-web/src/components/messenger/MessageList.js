@@ -9,7 +9,6 @@ export default class MessageList extends Component {
             <div className="message-list">
                 {   
                         this.props.messages.map( msg => {
-                            console.log(msg)
                             return (
                                 <div key={msg.id} className="message">
                                     <div className="message-user" style={{fontWeight:"bold", margin:"5px"}}>
